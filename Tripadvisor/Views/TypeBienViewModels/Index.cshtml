@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<TripAdvisor.Models.TypeBienViewModel>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div>
+    @using (Html.BeginForm("Index", "TypeBienViewModels", FormMethod.Get))
+    {
+        <p>
+            Code Type Bien: @Html.TextBox("CodeTypeBien", ViewBag.CodeTypeBien
+as string, new { @class = "form-control" })
+
+        </p>
+
+        <p>
+            Libelle Type Bien: @Html.TextBox("LibelleTypeBien", ViewBag.LibelleTypeBien
+as string, new { @class = "form-control" })
+            
+        </p>
+
+        <p>
+            <input type="submit" value="Rechercher" class=" btn btn-info" />
+        </p>
+    }
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CodeTypeBien)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().LibelleTypeBien)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeTypeBien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LibelleTypeBien)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdTypeBien }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdTypeBien }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.IdTypeBien })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, CodeTypeBien = ViewBag.CodeTypeBien, LibelleTypeBien = ViewBag.LibelleTypeBien }))
